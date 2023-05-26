@@ -63,7 +63,7 @@ const Orders = () => {
                   <h3 className="sr-only">
                     Order placed on
                   </h3>
-                  {filteredOrders.map((item) => (
+                  {filteredOrders?.map((item) => (
                     <div>
                       <div className="flex items-center p-4 border-b border-gray-200 sm:p-6 sm:grid sm:grid-cols-4 sm:gap-x-6">
                         <dl className="flex-1 grid grid-cols-2 gap-x-6 text-sm sm:col-span-3 sm:grid-cols-3 lg:col-span-2">

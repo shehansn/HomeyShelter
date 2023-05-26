@@ -10,6 +10,20 @@ import { getAuth } from "firebase/auth";
 //         merge: true,
 //     });
 // };
+export const saveFeedbackDb = async (data) => {
+
+  await setDoc(doc(firestore, "feedbacks", `${Date.now()}`), data, {
+    merge: true,
+  });
+};
+// getall work items
+export const getAllFeedbacks = async () => {
+  const items = await getDocs(
+    query(collection(firestore, "feedbacks"))
+  );
+
+  return items.docs.map((doc) => doc.data());
+};
 
 
 // Function to save new work item

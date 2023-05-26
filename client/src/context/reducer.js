@@ -19,7 +19,8 @@ export const actionType = {
   SET_BUYER_INFORMATION: "SET_BUYER_INFORMATION",
   SET_ITEM_ID: "SET_ITEM_ID",
   SET_ORDERS: "SET_ORDERS",
-  SET_NOTIFICATION_SHOW:"SET_NOTIFICATION_SHOW",
+  SET_NOTIFICATION_SHOW: "SET_NOTIFICATION_SHOW",
+  SET_FEEDBACKS: "SET_FEEDBACKS",
 };
 const currentUser = JSON.parse(localStorage.getItem("user"));
 
@@ -106,13 +107,18 @@ const reducer = (state, action) => {
         ...state,
         orders: action.orders,//orders
       };
-      case actionType.SET_NOTIFICATION_SHOW:
-        return {
-          ...state,
-          notificationShow: action.notificationShow,//orders
-        };
-  
-      
+    case actionType.SET_NOTIFICATION_SHOW:
+      return {
+        ...state,
+        notificationShow: action.notificationShow,//orders
+      };
+    case actionType.SET_FEEDBACKS:
+      return {
+        ...state,
+        feedbacks: action.feedbacks,//feedbacks
+      };
+
+
     // case actionType.SET_ORDER_ITEMS:
     //   return {
     //     ...state,

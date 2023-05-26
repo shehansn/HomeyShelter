@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -86,8 +86,26 @@ const Header = () => {
     };
     function scrollToTop() {
         window.scrollTo(0, 0);
-      }
+    }
 
+    const currentUser = JSON.parse(localStorage.getItem("user"));
+    const currentUserEmail = currentUser.email
+
+    const [workItemsID, setWorkItemsID] = useState([]);
+    const [orderItems, setOrderItems] = useState([]);
+
+
+    useEffect(() => {
+        if(orders){
+            const matchingItems = orders.filter((item) => item.userDetails.email === currentUserEmail);
+            setOrderItems(matchingItems)
+            const matchingItemIDs = matchingItems.map((item) => item.workItemID);
+            setWorkItemsID(matchingItemIDs);
+    
+        }
+        
+    },[])
+console.log("orderItems from header",orderItems)
     return (
         <header className="fixed z-50 w-screen p-3 px-4 md:p-6 md:px-16 shadow-md bg-gray-50">
 
@@ -148,10 +166,10 @@ const Header = () => {
                     {/* notification icon */}
                     <div className="relative flex items-center justify-center cursor-pointer" onClick={showNotifications}>
                         <MdNotifications className="text-textColor text-2xl cursor-pointer" />
-                        {user && orders && orders.length > 0 && (
+                        {user && orderItems && orderItems.length > 0 && (
                             <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-green-300 flex items-center justify-center">
                                 <p className="text-xs text-white font-semibold">
-                                    {orders.length}
+                                    {orderItems.length}
                                 </p>
                             </div>
                         )}

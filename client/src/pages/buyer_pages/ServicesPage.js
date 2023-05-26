@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { MdChevronLeft, MdChevronRight, MdDone } from "react-icons/md";
 import CategoriesContainer from '../../components/buyer_components/CategoriesContainer';
 import RowContainer from '../../components/buyer_components/RowContainer';
+import FeedBackContainer from '../../components/buyer_components/FeedBackContainer';
 
 const electricalFeatures = [
    
@@ -153,6 +154,7 @@ const ServicesPage = () => {
     const [{ workItems, cartShow, favSectionShow }, dispatch] = useStateValue();
     const [scrollValue, setScrollValue] = useState(0);
     useEffect(() => { }, [scrollValue]);
+   
 
     return (
         <div>
@@ -165,6 +167,10 @@ const ServicesPage = () => {
             </section>
 
             <CategoriesContainer />
+
+       
+         <FeedBackContainer />
+        
             <p>
                 <h1 className='text-left'>How it works </h1>
             </p>

@@ -5,6 +5,7 @@ import Home from "../../images/home.jpg";
 import ElectricBanner from "../../images/electricBanner.jpg";
 import PlumbingBanner from "../../images/plumbingBanner.jpg";
 import PromotionBanner from './PromotionBanner';
+import FeedBackContainer from './FeedBackContainer';
 import { useStateValue } from '../../context/StateProvider';
 import { Link } from 'react-router-dom';
 import { MdDone } from "react-icons/md";
@@ -15,9 +16,10 @@ import TaskerProfile from './taskerProfile';
 
 const HomeContainer = () => {
 
-    const [{ workItems, taskerInfo, cartShow, favSectionShow }, dispatch] = useStateValue();
-
+    const [{ workItems, taskerInfo, cartShow, favSectionShow, feedbacks, users }, dispatch] = useStateValue();
+    console.log(feedbacks)
     var [total, setTotalPrice] = useState("");
+    var [flag, setFlag] = useState(true)
 
     // useEffect(() => {
 
@@ -31,12 +33,12 @@ const HomeContainer = () => {
     // }, []);
     function scrollToTop() {
         window.scrollTo(0, 0);
-      }
+    }
 
     return (
         <div className=''>
             <PromotionBanner />
-            
+
             <section
                 className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full h-96 overflow-hidden bg-[#00142d] pl-4 pr-4 mt-2 rounded-xl"
                 id="home"
@@ -49,7 +51,7 @@ const HomeContainer = () => {
 
                     <p className="font-bold tracking-wide ">
                         <span className="w-full font text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                            Save Your Time. 
+                            Save Your Time.
                         </span>
                     </p>
 
@@ -164,7 +166,7 @@ const HomeContainer = () => {
                     <div className="grid grid-cols-1 md:grid-cols-4 w-full -mt-2 lg:-mt-10 gap-4 justify-center items-center">
                         {workItems && workItems.length > 0 ? (
                             workItems.map((item) => (
-                                <Link to={`/viewWorkItem/${item.id}`}  onClick={scrollToTop}>
+                                <Link to={`/viewWorkItem/${item.id}`} onClick={scrollToTop}>
                                     <div
                                         key={item.id}
                                         className=" ">
@@ -317,6 +319,7 @@ const HomeContainer = () => {
 
                 </section>
 
+
                 {/* 6th section */}
                 <section
                     className=" bg-[#F5F5F5]  mt-5 md:mt-10 lg:mt-16 gap-2 w-full p-5 rounded-xl"
@@ -325,48 +328,37 @@ const HomeContainer = () => {
                     <div class="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 m-5">
                         <p class="mb-5 text-2xl font-extrabold text-gray-900  dark:text-gray-400">Valuable Client's Reviews </p>
                     </div>
-                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1'>
-                        <div class="flex flex-col items-center justify-center p-8 text-center bg-white border-b border-gray-200 rounded-t-lg md:rounded-t-none md:rounded-tl-lg md:border-r dark:bg-gray-800 dark:border-gray-700">
-                            <blockquote class="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Very easy this was to integrate</h3>
-                                <p class="my-4 font-light">If you care for your time, I hands down would go with this."</p>
-                            </blockquote>
-                            <figcaption class="flex items-center justify-center space-x-3">
-                                <img class="rounded-full w-9 h-9" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png" alt="profile picture" />
-                                <div class="space-y-0.5 font-medium dark:text-white text-left">
-                                    <div>Bonnie Green</div>
-                                    <div class="text-sm font-light text-gray-500 dark:text-gray-400">Developer at Open AI</div>
-                                </div>
-                            </figcaption>
-                        </div>
-                        <div class="flex flex-col items-center justify-center p-8 text-center bg-white border-b border-gray-200 rounded-tr-lg dark:bg-gray-800 dark:border-gray-700">
-                            <blockquote class="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Solid foundation for any project</h3>
-                                <p class="my-4 font-light">Designing with Figma components that can be easily translated to the utility classes of Tailwind CSS is a huge timesaver!"</p>
-                            </blockquote>
-                            <figcaption class="flex items-center justify-center space-x-3">
-                                <img class="rounded-full w-9 h-9" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png" alt="profile picture" />
-                                <div class="space-y-0.5 font-medium dark:text-white text-left">
-                                    <div>Roberta Casas</div>
-                                    <div class="text-sm font-light text-gray-500 dark:text-gray-400">Lead designer at Dropbox</div>
-                                </div>
-                            </figcaption>
-                        </div>
-                        <div class="flex flex-col items-center justify-center p-8 text-center bg-white border-b border-gray-200 rounded-bl-lg md:border-b-0 md:border-r dark:bg-gray-800 dark:border-gray-700">
-                            <blockquote class="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Mindblowing workflow</h3>
-                                <p class="my-4 font-light">Aesthetically, the well designed components are beautiful and will undoubtedly level up your next application."</p>
-                            </blockquote>
-                            <figcaption class="flex items-center justify-center space-x-3">
-                                <img class="rounded-full w-9 h-9" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="profile picture" />
-                                <div class="space-y-0.5 font-medium dark:text-white text-left">
-                                    <div>Jese Leos</div>
-                                    <div class="text-sm font-light text-gray-500 dark:text-gray-400">Software Engineer at Facebook</div>
-                                </div>
-                            </figcaption>
-                        </div>
+                    {/* className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1'  */}
 
 
+
+                    <div className={`w-full flex items-center gap-3  my-12 scroll-smooth ${flag
+                        ? "overflow-x-scroll scrollbar-none"
+                        : "overflow-x-hidden flex-wrap justify-center"
+                        }`}>
+                        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1' >
+                            {feedbacks && feedbacks.length > 0 ? (
+                                feedbacks.map((item) => (
+
+                                    <div class="flex flex-col items-center justify-center p-8 text-center bg-white border-b border-gray-200 rounded-t-lg md:rounded-t-none md:rounded-tl-lg md:border-r dark:bg-gray-800 dark:border-gray-700">
+                                        <blockquote class="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
+                                            {/* <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Very easy this was to integrate</h3> */}
+                                            <p class="my-4 font-light">{item.message}</p>
+                                        </blockquote>
+                                        <figcaption class="flex items-center justify-center space-x-3">
+                                            <img class="rounded-full w-9 h-9" src={item.currentUserImage} alt="profile picture" />
+                                            <div class="space-y-0.5 font-medium dark:text-white text-left">
+                                                <div>{item.name}</div>
+                                                <div class="text-sm font-light text-gray-500 dark:text-gray-400">{item.occupation}</div>
+                                            </div>
+                                        </figcaption>
+                                    </div>
+
+
+
+                                ))
+                            ) : (<div>no feedbacks</div>)}
+                        </div>
                     </div>
                 </section>
 
@@ -418,6 +410,8 @@ const HomeContainer = () => {
                     </div>
 
                 </section>
+
+
 
 
 

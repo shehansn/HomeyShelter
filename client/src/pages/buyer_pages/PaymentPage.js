@@ -27,7 +27,7 @@ function PaymentPage() {
   // Define a function to update the total price state
   const updateTotalPrice = () => {
     let totalPrice = 0;
-    orderInformation.forEach((item) => {
+    orderInformation?.forEach((item) => {
       totalPrice += parseFloat(item.Price);
     });
     setTotalPrice(totalPrice);
@@ -62,15 +62,15 @@ function PaymentPage() {
       <div class="grid sm:px-10 items-center justify-center lg:px-20 xl:px-32">
         <div class="px-4 pt-8">
           <p class="text-xl font-medium">Order Summary</p>
-          <p class="text-gray-400">Check your items working.</p>
+          <p class="text-gray-400">Check your Work items.</p>
           <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-            {orderInformation.map((item) => (
+            {orderInformation?.map((item) => (
 
 
               <div class="flex flex-col rounded-lg bg-white sm:flex-row border border-b border-gray-300 ">
                 <div class="flex w-full flex-col px-4 py-4">
                   <span class="font-semibold">{item.Name}</span>
-                  <span class="float-right text-gray-400">42EU - 8.5US</span>
+                  {/* <span class="float-right text-gray-400">42EU - 8.5US</span> */}
                   <p class="text-lg font-bold">{item.Price} LKR</p>
                 </div>
               </div>

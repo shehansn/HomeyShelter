@@ -22,4 +22,5 @@ export const initialState = {
   orders:null,
   notificationShow:false,
   notifications:null,
+  feedbacks:null,
 };

@@ -4,7 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { useStateValue } from './context/StateProvider';
-import { getAllWorkItems,getAllTaskers,getAllUsers,getAllOrders } from './utils/firebaseFunctions';
+import { getAllWorkItems,getAllTaskers,getAllUsers,getAllOrders,getAllFeedbacks } from './utils/firebaseFunctions';
 import { actionType } from './context/reducer';
 import { registerChartJs } from './utils/register-chart-js';
 import { theme } from './theme';
@@ -35,7 +35,7 @@ import ContactUs from './components/buyer_components/ContactUs';
 registerChartJs();
 
 const App = () => {
-  const [{ workItems, taskerInfo,seller, user }, dispatch] = useStateValue();
+  const [{ workItems, taskerInfo,seller, user ,feedbacks}, dispatch] = useStateValue();
 
   const fetchData = async () => {
     await getAllWorkItems().then((data) => {
@@ -76,12 +76,22 @@ const App = () => {
       });
     });
   };
-
+ 
+  const getFeedbacks = async () => {
+    await getAllFeedbacks().then((data) => {
+      console.log(data);
+      dispatch({
+        type: actionType.SET_FEEDBACKS,
+        feedbacks: data,
+      });
+    });
+  };
   useEffect(() => {
     fetchData();
     getTaskers();
     getUsers();
     getOrders();
+    getFeedbacks();
   }, []);
 
   const ProtectedRoute = ({ children }) => {

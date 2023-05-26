@@ -45,6 +45,9 @@ const RowContainer = ({ flag, data, scrollValue }) => {
         rowContainer.current.scrollLeft += scrollValue;
     }, [scrollValue]);
 
+    function scrollToTop() {
+        window.scrollTo(0, 0);
+    }
     return (
         <div
             ref={rowContainer}
@@ -59,7 +62,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
                 data.map((item) => (
 
                   
-                        <Link to={`/viewWorkItem/${item.id}`} >
+                        <Link to={`/viewWorkItem/${item.id}`} onClick={scrollToTop} >
                             <div
                                 key={item.id}
                                 className=" ">

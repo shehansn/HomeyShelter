@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -9,15 +9,16 @@ import Logo from "../../images/logo.png";
 import Avatar from "../../images/account_avatar.png";
 
 // icons
-import {  MdAdd, MdLogout, MdEmail, MdNotifications  } from "react-icons/md";
+import { MdAdd, MdLogout, MdEmail, MdNotifications } from "react-icons/md";
 import { useStateValue } from '../../context/StateProvider';
 import { actionType } from '../../context/reducer';
+import SellerNotificationContainer from './SellerNotificationContainer';
 
 const SellerHeader = () => {
     const firebaseAuth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    const [{ user, favSectionShow, cartShow, cartItems, favItems, seller,notificationShow }, dispatch] = useStateValue();
+    const [{ user, favSectionShow, cartShow, orders, cartItems, favItems, seller, notificationShow }, dispatch] = useStateValue();
     const [isMenuSeller, setIsMenuSeller] = useState(false);
 
     const showMenu = () => {
@@ -71,13 +72,27 @@ const SellerHeader = () => {
         });
     };
 
+    const currentUser = JSON.parse(localStorage.getItem("user"));
+    const currentUserEmail = currentUser.email
+
+    const [workItemsID, setWorkItemsID] = useState([]);
+    const [orderItems, setOrderItems] = useState([]);
+
+    useEffect(() => {
+        const matchingItems = orders.filter((item) => item.userDetails.email === currentUserEmail);
+        setOrderItems(matchingItems)
+        const matchingItemIDs = matchingItems.map((item) => item.workItemID);
+        setWorkItemsID(matchingItemIDs);
+
+    }, [])
+
     return (
         <header className="fixed z-50 w-screen p-3 px-4 md:p-6 md:px-16 shadow-md bg-slate-50">
             {/* desktop web & tablet web */}
             <div className="hidden lg:flex w-full h-full items-center justify-between">
                 <Link to={"/"} className="flex items-center gap-2">
                     <img src={Logo} className="w-20 object-cover" alt="logo" />
-                    <p className="text-headingColor text-xl font-bold">seller header</p>
+                    <p className="text-headingColor text-xl font-bold"></p>
                 </Link>
                 <div className="flex items-center gap-8">
                     <motion.ul
@@ -110,29 +125,29 @@ const SellerHeader = () => {
                     </motion.ul>
 
                     {/* notification icon */}
-                     <div className="relative flex items-center justify-center cursor-pointer" onClick={showNotifications}>
+                    <div className="relative flex items-center justify-center cursor-pointer" onClick={showNotifications}>
                         <MdNotifications className="text-textColor text-2xl cursor-pointer" />
-
-                        <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-green-300 flex items-center justify-center">
-                            <p className="text-xs text-white font-semibold">
-                                3
-                            </p>
-                        </div>
-
-                    </div> 
+                        {orderItems && orderItems.length > 0 && (
+                            <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-green-300 flex items-center justify-center">
+                                <p className="text-xs text-white font-semibold">
+                                   {orderItems.length}
+                                </p>
+                            </div>
+                        )}
+                    </div>
 
                     {/* message icon */}
                     <Link to={"/chatBuyer"} >
-                    <div className="relative flex items-center justify-center cursor-pointer">
-                        <MdEmail className="text-textColor text-2xl cursor-pointer" />
+                        <div className="relative flex items-center justify-center cursor-pointer">
+                            <MdEmail className="text-textColor text-2xl cursor-pointer" />
 
-                        <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-green-300 flex items-center justify-center">
-                            <p className="text-xs text-white font-semibold">
-                                6
-                            </p>
+                            <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-green-300 flex items-center justify-center">
+                                <p className="text-xs text-white font-semibold">
+                                    6
+                                </p>
+                            </div>
+
                         </div>
-
-                    </div>
                     </Link>
 
                     {/* account avatar */}
@@ -237,7 +252,9 @@ const SellerHeader = () => {
                 </div>
             </div>
 
+            {seller && notificationShow &&  <SellerNotificationContainer/> }
         </header>
+
     )
 }
 
